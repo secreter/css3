@@ -1,0 +1,160 @@
+/*
+transform属性：
+1、translate（水平）-- transform:translate(10px,10px);
+2、rotate（旋转）-- transform:rotate(90deg);
+3、scale（缩放）-- transform:scale(0.5,,0.5);
+4、skew（缩放）-- transform:skew(50deg,,0deg);
+ */
+/*
+transition属性：
+1、property：检索火设置对象中的参与过渡属性（all,transform...）
+2、duration：过渡动画的持续时间
+3、timing-function：检索火设置对象中过渡的动画类型
+4、delay：检索或设置对象延迟过渡的时间
+-- transition: property duration timing-function delay;
+-- transition: all 2s ease-in 1s;
+ */
+*{
+	margin: 0;
+	padding: 0;
+}
+figure{
+	position: relative;
+	width: 33.3%;
+	height: 300px;
+	overflow: hidden;
+	float: left;
+}
+figure img{
+	opacity: 0.8;
+}
+figcaption{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+figure figcaption p{
+	transition:all 0.6s;
+}
+figure figcaption p,h2,span,img,div{
+	transition:all 0.6s;
+}
+img{
+	width: 100%;
+	height: 100%;
+}
+/*媒体查询*/
+@media screen and (max-width: 600px){
+	figure{
+	width: 100%;
+	}
+}
+@media screen and (min-width: 601px) and (max-width: 1000px){
+	figure{
+	width: 50%;
+	}
+}
+@media screen and (min-width: 1001px){
+	figure{
+	width: 33.3%;
+	}
+}
+
+.text_style{
+	background: #fff;
+}
+.text_style figcaption{
+	margin:20px;	
+}
+.text_style figcaption p{
+	background: #fff;
+	margin: 10px 0;
+	padding: 5px;
+	color: #333;
+	transform: translate(-200px,0);
+	-webkit-transform: translate(-200px,0);
+	-moz-transform: translate(-200px,0);
+}
+
+.text_style figcaption p:nth-of-type(1){
+	transition-delay: 0.05s
+}
+.text_style figcaption p:nth-of-type(2){
+	transition-delay: 0.1s
+}
+.text_style figcaption p:nth-of-type(3){
+	transition-delay: 0.15s
+}
+/*.text_style figcaption p:hover*/
+.text_style:hover figcaption p{
+	transform: translate(0,0);
+	-webkit-transform: translate(0,0);
+	-moz-transform: translate(0,0);
+}
+.text_style:hover img{
+	transform:scale(1.1,1.1);
+	opacity: 1;
+}
+
+
+/*rotate*/
+.text_style2{
+	background: #030;
+}
+.text_style2 figcaption{
+	width: 100%;
+	height: 100%;	
+}
+.text_style2 figcaption div{
+	width: 80%;
+	height: 80%;
+	border: 2px solid #fff;	
+	position: absolute;
+	left: 10%;
+	top: 10%;
+	transform: translate(0px,-350px) rotate(0deg);
+}
+.text_style2:hover figcaption div{
+	transform: translate(0px,0px) rotate(360deg);
+}
+.text_style2 figcaption h2{
+	margin-top: 15%;
+	margin-left: 15%
+}
+.text_style2 figcaption p{
+	margin-left: 15%;
+	opacity: 0;
+	transform: translate(0px,40px)
+}
+.text_style2:hover figcaption p{
+	opacity: 1;
+	transform: translate(0px,0px)
+}
+.text_style2:hover img{
+	opacity: 1;
+}
+
+
+/**/
+.text_style3{
+	background: #000;
+}
+.text_style3 figcaption{
+	top: 30%;
+	left: 15%;
+}
+.text_style3 figcaption h2{
+	transform:skew(90deg);
+}
+.text_style3 figcaption p{
+	transform:skew(-90deg);
+}
+.text_style3:hover img{
+	opacity: 1;
+}
+.text_style3:hover figcaption h2{
+	transform:skew(0deg);
+}
+.text_style3:hover figcaption p{
+	transform:skew(0deg);
+}

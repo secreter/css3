@@ -1,0 +1,487 @@
+/*
+rem是相对于根元素<html>
+ */
+/*
+在移动端可以做到适配不同的手机分辨率，如果保持整体缩放，没有设计上的差异可以不需要用到`media query`
+
+假设设计师的视觉稿是按照iPhone6的宽度来设计的，即375px (如果是高清的视觉稿750/2=375)
+那么，我们可以完全按照视觉稿上的尺寸来赋值给元素的样式，比如视觉稿上的尺寸是80px，那么在css中就可以直接定义width:80px; 页面中所有的尺寸都这样来设置。
+
+当所有的网站所有的页面样式都设置好之后。
+
+我们需要做两件事情：
+1. 设置页面的rem大小
+```css
+html {
+font-size: calc(100vw/3.75);
+}
+```
+100vw是设备的宽度，除以3.75可以让1rem的大小在iPhone6下等于100px
+
+2. 替换页面中的单位，把所有的px单位替换成rem，除以100，比如前面的80px，就是0.8rem
+这样在iPhone6下，所有元素的尺寸还是和视觉稿的尺寸一样，而iphone5中，因为设备的宽度变小了，100vw/3.75得到的值，会相应的变小，即rem的单位值会变小，页面中所有的尺寸会等比例缩放。
+
+这样就可以做到针对任何分辨率的设备保持视觉一致了。
+最后，前面用到vw单位，但是低版本的设备可能不支持，那么就需要js来处理一下：
+```javascript
+document.documentElement.style.fontSize = window.innerWidth/3.75 + 'px'
+```
+
+之所以前面让1rem等于100px，而不是1rem等于1px，是因为在chrome下针对中文的最小字体是12px。
+
+
+当然，这种步骤是针对现在的状况改rem来做的，如果一开始就是使用rem，那么写css的时候，可以直接写rem单位，按视觉稿除以100，其实也没有什么计算过程。或者用预处理器的话，也可以写一个`px2rem`的函数，直接改这个函数就可以了。
+
+作者：sapjax
+链接：http://www.zhihu.com/question/21504656/answer/48542422
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+ */
+
+/*导入字体,这里只是导入到网页，可以用了，但没有应用*/
+@font-face{
+	font-family: "Raphaelicons";
+	/*format指字体格式，列出全部格式是为了浏览器兼容*/
+	src:url('../fonts/raphaelicons-webfont.eot') format('eot'),
+		url('../fonts/raphaelicons-webfont.ttf') format('truetype'),
+		url('../fonts/raphaelicons-webfont.woff') format('woff'),
+		url('../fonts/raphaelicons-webfont.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+html{
+	font-size: 62.5%;
+}
+body{
+	font-family: Georgia,serif;
+	background-color: #ddd;
+	font-weight: 400;
+	font-size: 1.5rem;
+	color: #333;
+	overflow: hidden;
+	font-smoothing:antialiased;
+	-webkit-font-smoothing:antialiased;
+	-moz-font-smoothing:antialiased;
+}
+a{
+	text-decoration: none;
+	color: #555;
+}
+/*清除浮动类*/
+.clr{
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	clear: both;
+	padding: 0;
+	margin: 0;
+}
+.st-container{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-family: "Josefin Slab","Myriad Pro",Arial,sans-serif;
+}
+.st-container>input,
+.st-container>a{
+	width: 20%;
+	height: 34px;
+	line-height: 34px;
+	position: fixed;
+	bottom:0;
+}
+
+/*input style*/
+.st-container>input{
+	opacity: 0.3;
+	z-index: 1000;
+}
+.st-container>a{
+	z-index: 10;
+	font-weight: 700;
+	font-size: 1.6rem;
+	background: #e23a6e;
+	text-align: center;
+	color: #fff;
+	box-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+	cursor: pointer;
+}
+/*  +表示其后面紧跟的第一个，~表示其后面的所有*/
+#st-control-1,#st-control-1 + a{
+	left: 0%;
+}
+#st-control-2,#st-control-2 + a{
+	left: 20%;
+}
+#st-control-3,#st-control-3 + a{
+	left: 40%;
+}
+#st-control-4,#st-control-4 + a{
+	left:60%;
+}
+#st-control-5,#st-control-5 + a{
+	left: 80%;
+}
+
+/*设置input选中时a的样式,注意，下面设置鼠标滑过样式时这里也会改变，所以要加上hover选中时*/
+.st-container input:checked + a,
+.st-container input:checked:hover + a{
+	background: #821134;
+}
+
+
+/*导航三角制作*/
+/*要动态生成，所以用after*/
+.st-container input:checked + a:after{
+content:"";
+width: 0;
+height: 0;
+overflow: hidden;
+/*border 20 最后的三角形宽度是40，transparent是透明*/
+border: 20px solid transparent;
+/*因为尖角朝上，所以是bottom*/
+border-bottom-color: #821134;
+/*定位到a的上方*/
+position: absolute;
+bottom: 100%;
+left: 50%;
+/*只是三角形最左边的点在中间*/
+margin-left: -20px;
+}
+
+/*鼠标滑过*/
+.st-container input:hover + a{
+	background: #ad244f;
+}
+
+
+
+/*
+内容部分
+ */
+.st-scroll,
+.st-panel{
+	width: 100%;
+	height:100%;
+	position: relative;
+}
+/*滑动的时候不是改变section位置，这里改变st-scroll*/
+.st-scroll{
+	left: 0;
+	top: 0;
+	/*用translate3d可以开启硬件加速，所以比translate好*/
+	transition: translate3d(0,0,0);
+	-webkit-transition: translate3d(0,0,0);
+	-o-transition: translate3d(0,0,0);
+	-ms-transition: translate3d(0,0,0);
+	-ms-transition: translate3d(0,0,0);
+	/*不面向屏幕的时候是隐藏的*/
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	/*改变的谁加在谁上*/
+	transition: all 0.6s ease-in-out;
+	-webkit-transition: all 0.6s ease-in-out;
+	-o-transition: all 0.6s ease-in-out;
+	-moz-transition: all 0.6s ease-in-out;
+	-ms-transition: all 0.6s ease-in-out;
+}
+.st-panel{
+	background: #fff;
+	overflow: hidden;
+}
+#st-control-1:checked ~ .st-scroll{
+	-webkit-transform: translateY(0%);
+	-o-transform: translateY(0%);
+	-ms-transform: translateY(0%);
+	-ms-transform: translateY(0%);
+	transform: translateY(0%);
+}
+#st-control-2:checked ~ .st-scroll{
+	-webkit-transform: translateY(-100%);
+	-o-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	transform: translateY(-100%);
+}
+#st-control-3:checked ~ .st-scroll{
+	-webkit-transform: translateY(-200%);
+	-o-transform: translateY(-200%);
+	-ms-transform: translateY(-200%);
+	-ms-transform: translateY(-200%);
+	transform: translateY(-200%);
+}
+#st-control-4:checked ~ .st-scroll{
+	-webkit-transform: translateY(-300%);
+	-o-transform: translateY(-300%);
+	-ms-transform: translateY(-300%);
+	-ms-transform: translateY(-300%);
+	transform: translateY(-300%);
+}
+#st-control-5:checked ~ .st-scroll{
+	-webkit-transform: translateY(-400%);
+	-o-transform: translateY(-400%);
+	-ms-transform: translateY(-400%);
+	-ms-transform: translateY(-400%);
+	transform: translateY(-400%);
+}
+
+/*用旋转45度的矩形来做三角形*/
+.st-desc{
+	width: 200px;
+	height: 200px;
+	background: #fa96b5;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	margin-left: -100px;
+	transform: translateY(-50%) rotate(45deg);
+	-webkit-transform: translateY(-50%) rotate(45deg);
+	-o-transform: translateY(-50%) rotate(45deg);
+	-moz-transform: translateY(-50%) rotate(45deg);
+	-ms-transform: translateY(-50%) rotate(45deg);
+}
+/*属性选择器用[]*/
+[data-icon]:after{
+	/*获取属性*/
+	content:attr(data-icon);
+	width: 200px;
+	height: 200px;
+	/*background: #234;*/
+	font-family: "Raphaelicons";
+	color: #fff;
+	font-size: 9rem;
+	text-align: center;
+	line-height: 200px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -50px;
+	transform: translateY(25%) rotate(-45deg);
+	-webkit-transform: translateY(25%) rotate(-45deg);
+	-o-transform: translateY(25%) rotate(-45deg);
+	-moz-transform: translateY(25%) rotate(-45deg);
+	-ms-transform: translateY(25%) rotate(-45deg);
+	text-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+}
+
+.st-panel h2{
+	color: #e23a6e;
+	font-size: 5.4rem;
+	line-height: 50px;
+	text-align: center;
+	font-weight: 900;
+	width: 80%;
+	position: absolute;
+	left: 10%;
+	top: 50%;
+	margin-top: -70px;
+	text-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+}
+/*动画加在选中的那个页面上，另外~ + 都只能选取后面并列的元素*/
+/*transtion 动画需要事件触发，animation不需要，页面加载就执行*/
+#st-control-1:checked ~ .st-scroll #st-panel-1 h2,
+#st-control-2:checked ~ .st-scroll #st-panel-2 h2,
+#st-control-3:checked ~ .st-scroll #st-panel-3 h2,
+#st-control-4:checked ~ .st-scroll #st-panel-4 h2,
+#st-control-5:checked ~ .st-scroll #st-panel-5 h2{
+	/*backwards动画开始前是执行状态*/
+	animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-webkit-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-moz-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-o-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+	-ms-animation: moveDown 0.6s ease-in-out 0.2s backwards;
+}
+@-webkit-keyframes moveDown{
+	0%{
+		-webkit-transform: translateY(-50px);
+		opacity: 0;
+	}
+	100%{
+		-webkit-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-moz-keyframes moveDown{
+	0%{
+		-moz-transform: translateY(-50px);
+		opacity: 0;
+	}
+	100%{
+		-moz-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-ms-keyframes moveDown{
+	0%{
+		-ms-transform: translateY(-50px);
+		opacity: 0;
+	}
+	100%{
+		-ms-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-o-keyframes moveDown{
+	0%{
+		-o-transform: translateY(-50px);
+		opacity: 0;
+	}
+	100%{
+		-o-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@keyframes moveDown{
+	0%{
+		transform: translateY(-50px);
+		opacity: 0;
+	}
+	100%{
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+.st-panel p{
+	position: absolute;
+	width: 50%;
+	left: 25%;
+	top: 50%;
+	font-size: 16px;
+	line-height: 22px;
+	padding: 0;
+	text-align: center;
+	-webkit-backface-visibility: hidden;
+	color: #8b8b8b;
+	margin-top: 10px;
+}
+#st-control-1:checked ~ .st-scroll #st-panel-1 p,
+#st-control-2:checked ~ .st-scroll #st-panel-2 p,
+#st-control-3:checked ~ .st-scroll #st-panel-3 p,
+#st-control-4:checked ~ .st-scroll #st-panel-4 p,
+#st-control-5:checked ~ .st-scroll #st-panel-5 p{
+	/*backwards动画开始前是执行状态*/
+	animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-webkit-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-moz-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-o-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+	-ms-animation: moveUp 0.6s ease-in-out 0.2s backwards;
+}
+@-webkit-keyframes moveUp{
+	0%{
+		-webkit-transform: translateY(40px);
+		opacity: 0;
+	}
+	100%{
+		-webkit-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-moz-keyframes moveUp{
+	0%{
+		-moz-transform: translateY(40px);
+		opacity: 0;
+	}
+	100%{
+		-moz-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-ms-keyframes moveUp{
+	0%{
+		-ms-transform: translateY(40px);
+		opacity: 0;
+	}
+	100%{
+		-ms-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@-o-keyframes moveUp{
+	0%{
+		-o-transform: translateY(40px);
+		opacity: 0;
+	}
+	100%{
+		-o-transform: translateY(0px);
+		opacity: 1;
+	}
+}
+@keyframes moveUp{
+	0%{
+		transform: translateY(40px);
+		opacity: 0;
+	}
+	100%{
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+
+/*背景色处理，隔一个换一下*/
+.st-color{
+	background: #fa96b5;
+}
+.st-color .st-desc{
+	background: #fff;
+}
+.st-color [data-icon]:after{
+	color: #fa96b5;
+}
+.st-color h2{
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(151,24,64,0.2);
+}
+.st-color p{
+	color: #eee;
+	
+}
+
+/*媒体查询，适配*/
+@media screen and (max-width: 520px){
+	html{
+		font-size: 50%;
+	}
+	.st-panel h2{
+	}
+	.st-panel p{
+		width: 90%;
+		left: 5%;
+		margin-top:0; 
+	}
+	.st-container>a{
+	}
+
+}
+
+@media screen and (max-width: 360px){
+	html{
+		font-size: 40%;
+	}
+	.st-panel h2{
+	}
+	.st-panel p{
+		width: 90%;
+		left: 5%;
+		margin-top:0; 
+	}
+	.st-container>a{
+	}
+	.st-desc{
+		width: 120px;
+		height: 120px;
+		margin-left: -60px;
+	}
+	[data-icon]:after{
+		margin-left: -70px;
+		transform: translateY(15%) rotate(-45deg);
+		-webkit-transform: translateY(15%) rotate(-45deg);
+		-o-transform: translateY(15%) rotate(-45deg);
+		-moz-transform: translateY(15%) rotate(-45deg);
+		-ms-transform: translateY(15%) rotate(-45deg);
+	}
+
+}
