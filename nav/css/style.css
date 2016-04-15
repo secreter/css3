@@ -1,0 +1,149 @@
+/*global*/
+html{
+	width: 100%;
+	height: 100%;
+	/*屏幕变换时禁止调整字体大小*/
+	-webkit-text-size-adjust:none;
+	   -moz-text-size-adjust:none;
+	    -ms-text-size-adjust:none;
+	     -o-text-size-adjust:none;
+	        text-size-adjust:none;
+}
+body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: #479caf;
+	color: #74777b;
+	font-size: 1.5em;
+	font-weight: 300;
+}
+ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+a:link,a:visited,a:focus{
+	text-decoration: none;
+	outline: none;
+}
+*:before,*:after,*{
+	-webkit-box-sizing:border-box;
+	   -moz-box-sizing:border-box;
+	    -ms-box-sizing:border-box;
+	     -o-box-sizing:border-box;
+		    box-sizing:border-box;
+}
+/*插入的都是块元素*/
+*:before,*:after{
+	display: block;
+	content: "";
+}
+/*清除浮动*/
+*:after{
+	clear:both;
+}
+
+
+/*nav*/
+.nav{
+	width: 800px;
+	height: 300px;
+	margin: 200px auto;
+}
+.nav li{
+	display: inline-block;
+	margin: 0 1em;
+}
+.tooltip{
+	display: inline-block;
+	font-weight: 700;
+	color: rgba(0,0,0,.3);
+	padding: 0.15em 0.25em 0;
+	position: relative;
+	z-index: 999;
+	transition: all 0.4s;
+}
+.tooltip:hover{
+	color: rgba(255,255,255,.9);
+}
+.tooltip-content{
+	/*when position absolute ,auto  be block*/
+	position: absolute;
+	z-index: 9999;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background: #fff;
+	left: calc(50% - 40px);
+	bottom: calc(100% + 20px);
+	text-align: center;
+	padding-top: 25px;
+	opacity: 0;
+	transition: all 0.4s;
+
+}
+.tooltip .tooltip-content i{
+	opacity: 0;
+	transition: all 0.4s;
+}
+.tooltip-content::after{
+	display: block;
+	content: "";
+	width: 30px;
+	height: 20px;
+	background: url(../img/tooltip1.svg) no-repeat center center;
+	-webkit-background-size: 100%;
+	background-size: 100%;
+	position: absolute;
+	top: calc(100% - 7px);
+	left: calc(50% - 15px);
+
+}
+.tooltip-effect-1 .tooltip-content{
+	/*rotate3d (x,y,z,deg)  0-1*/
+	transform: translate3d(0,10px,0) rotate3d(1,1,1,90deg);
+	transform-origin: 50% 100%;
+}
+.tooltip-effect-1 .tooltip-content i{
+	transform: scale3d(0,0,1);
+}
+.tooltip-effect-2 .tooltip-content{
+	/*rotate3d (x,y,z,deg)  0-1*/
+	transform: translate3d(0,20px,0);
+}
+.tooltip-effect-2 .tooltip-content i{
+	transform: translate3d(0,10px,0);
+}
+.tooltip-effect-3 .tooltip-content{
+	/*rotate3d (x,y,z,deg)  0-1*/
+	transform: translate3d(0,10px,0) rotate3d(0,1,0,90deg);
+}
+.tooltip-effect-3 .tooltip-content i{
+	transform: scale3d(0,0,1);
+}
+.tooltip-effect-4 .tooltip-content{
+	/*rotate3d (x,y,z,deg)  0-1*/
+	transform: translate3d(0,-20px,0)
+}
+.tooltip-effect-4 .tooltip-content i{
+	transform: translate3d(0,20px,0)
+}
+.tooltip-effect-5 .tooltip-content{
+	/*rotate3d (x,y,z,deg)  0-1*/
+	transform: scale3d(0,0,1);
+	transform-origin: 50% 100%;
+	-webkit-transform: scale3d(0,0,1);
+	-webkit-transform-origin: 50% 100%;
+}
+.tooltip-effect-5 .tooltip-content i{
+	transform: scale3d(0,0,1);
+	transform-origin: 50% 100%;
+}
+.tooltip:hover .tooltip-content,
+.tooltip:hover .tooltip-content i{
+	opacity: 1;
+	transform: translate3d(0,0,0) rotate3d(1,1,1,0) scale3d(1,1,1);
+}
+
