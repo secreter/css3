@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d翻页效果</title>
+	<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+	<div id="my3d_space">
+		<div id="page_group">
+			<div class="page" id="page1">1</div>
+			<div class="page" id="page2">2</div>
+			<div class="page" id="page3">3</div>
+			<div class="page" id="page4">4</div>
+			<div class="page" id="page5">5</div>
+			<div class="page" id="page6">6</div>
+			
+		</div>
+	</div>
+	<div id="op">
+		<a href="javascript:pre();">previous</a>
+		<a href="javascript:next();">next</a>
+	</div>
+</body>
+<script>
+	var curIndex=1;
+	function pre(){
+		if(curIndex==1){
+			return;
+		}
+		var curPage=document.getElementById("page"+curIndex);
+		curPage.style.webkitTransform="rotateX(90deg)";
+		curIndex=curIndex-1;
+		
+		var prePage=document.getElementById("page"+curIndex);
+		prePage.style.webkitTransform="rotateX(0deg)";
+	}
+	function next(){
+		if(curIndex==6){
+			return;
+		}
+		var curPage=document.getElementById("page"+curIndex);
+		curPage.style.webkitTransform="rotateX(-90deg)";
+		curIndex=curIndex+1;
+		
+		var nextPage=document.getElementById("page"+curIndex);
+		nextPage.style.webkitTransform="rotateX(0deg)";
+	}
+</script>
+</html>

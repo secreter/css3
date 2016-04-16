@@ -1,0 +1,64 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html,body{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.loop_img{
+	animation: loop_img 8s ease-in-out infinite;
+	/*animation-timing-function: (5,start);*/
+	/*动画结束后是否反向运动 反向alternate，正常normal*/
+	/*animation-direction:alternate;*/
+	width: 400%;
+
+
+}
+figure{
+	width: 25%;
+	height: 500px;
+	overflow: hidden;
+	display:inline-block;
+	float: left;
+	/*position: relative;*/
+}
+figcaption{
+
+}
+figure>img{
+	width: 100%;
+	height: 100%;
+}
+
+
+@keyframes loop_img{
+	0%{
+		margin-left: 0;  /*停一下*/
+	}
+	13%{
+		margin-left: 0;
+	}
+	25%{
+		margin-left: -100%;
+	}
+	38%{
+		margin-left: -100%;
+	}
+	50%{
+		margin-left: -200%;
+	}
+	63%{
+		margin-left: -200%;
+	}
+	75%{
+		margin-left: -300%;
+	}
+	88%{
+		margin-left: -300%;
+	}
+	100%{
+		margin-left: 0%;
+	}
+}

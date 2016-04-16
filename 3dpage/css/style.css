@@ -1,0 +1,86 @@
+/*3d window*/
+#my3d_space{
+	/*透视距离,原点*/
+	-webkit-perspective:800;
+	-moz-perspective:800;
+	-ms-perspective:800;
+	-o-perspective:800;
+	perspective:800;
+	-webkit-perspective-origin:50% 50%;
+	-moz-perspective-origin:50% 50%;
+	-ms-perspective-origin:50% 50%;
+	-o-perspective-origin:50% 50%;
+	perspective-origin:50% 50%;
+
+	overflow: hidden;
+}
+#page_group{
+	width: 400px;
+	height: 400px;
+	margin: 0 auto;
+	-webkit-transform-style: -webkit-preserve-3d;
+	-moz-transform-style: -moz-preserve-3d;
+	-ms-transform-style: -ms-preserve-3d;
+	-o-transform-style: -o-preserve-3d;
+	transform-style: preserve-3d;
+	position: relative;
+}
+.page{
+	text-align: center;
+	width: 400px;
+	height: 400px;
+	color:#fff;
+	background: #000;
+	font-weight: bolder;
+	font-size: 400px;
+	line-height: 400px;
+	position: absolute;
+	-webkit-transform-origin: bottom;
+	-moz-transform-origin: bottom;
+	-ms-transform-origin: bottom;
+	-o-transform-origin: bottom;
+	transform-origin: bottom;
+	-webkit-transition: -webkit-transform 1s linear;
+	-moz-transition: -moz-transform 1s linear;
+	-ms-transition: -ms-transform 1s linear;
+	-o-transition: -o-transform 1s linear;
+	transition: transform 1s linear;
+	/*xuanzhuan*/
+	/*-webkit-animation: rotate3d 2s linear 0s infinite normal ;
+	-o-animation: rotate3d 2s linear 0s infinite normal ;
+	animation: rotate3d 2s linear 0s infinite normal ;*/
+
+}
+.page:first-child{
+	
+
+}
+.page:not(:first-child){
+	-webkit-transform:rotateX(90deg);
+	-moz-transform:rotateX(90deg);
+	-ms-transform:rotateX(90deg);
+	-o-transform:rotateX(90deg);
+	transform:rotateX(90deg);
+}
+
+#op{
+	text-align: center;
+	margin: 40px auto;
+}
+
+@keyframes rotate3d{
+	0%{
+		-webkit-transform:rotateX(90deg);
+		-moz-transform:rotateX(90deg);
+		-ms-transform:rotateX(90deg);
+		-o-transform:rotateX(90deg);
+		transform:rotateX(90deg);
+	}
+	100%{
+		-webkit-transform:rotateX(450deg);
+		-moz-transform:rotateX(450deg);
+		-ms-transform:rotateX(450deg);
+		-o-transform:rotateX(450deg);
+		transform:rotateX(450deg);
+	}
+}
