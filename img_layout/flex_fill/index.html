@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>行等高充满布局</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+</head>
+<body>
+<section>
+	<div class="box" v-for="img in imgArr" :style="{'flex-basis':img.width*200/img.height+'px','flex-grow':img.width/img.height}">
+		<img :height="img.height/img.width*100+'%'" class="box-img" :src="'https://xieranmaya.github.io/images/cats/'+img.url" >
+	</div>
+</section>
+<!-- https://xieranmaya.github.io/images/cats/cats.json -->
+<script>
+	const api = 'https://xieranmaya.github.io/images/cats/cats.json'
+	new Vue({
+	  el: 'body',
+	  data: {
+	    message: 'Hello Vue.js!',
+	    imgArr: []
+	  },
+	  ready() {
+
+	  	this.getImg()
+	  	.then((result) => {
+	  		this.imgArr = result
+	  		// this.imgArr.length = 10
+	  	})
+	  	.catch((e) => {
+
+	  	})
+	  },
+	  methods: {
+	  	getImg() {
+	  		return new Promise((resolve, reject) => {
+	  			$.ajax({
+			  		type: 'get',
+			  		url: api,
+			  		success: (data) => {
+			  			console.log(data)
+			  			resolve(data)
+			  		},
+			  		error: (e) => {
+			  			console.error(e)
+			  			reject(e)
+			  		}
+			  	})
+	  		})
+		  }
+	  	}
+	})
+</script>
+</body>
+</html>

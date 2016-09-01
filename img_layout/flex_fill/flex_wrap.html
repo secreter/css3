@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>处理flex_wrap最后一行问题</title>
+	<style type="text/css">
+		body{
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			justify-content: space-around;
+		}
+
+		.box{
+			/*flex-grow: 1;*/
+			flex-basis: 200px;
+			height: 200px;
+			background-color: #666;
+			margin: 5px;
+		}
+		/*找到一行可能的最大数目，让之后的box高度都为0占位*/
+		.box:nth-last-child(6) ~ .box{
+			height: 0;
+		}
+	</style>
+</head>
+<body>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<!-- 0 height 占位 -->
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+<div class="box"></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+section{
+	display: flex;
+	flex-wrap: wrap;
+	background-color: #eee;
+}
+/*在最后追加一个元素，grow设的特别大，这样就会把剩余行的空间全部占据*/
+section::after {
+  content: '';
+  flex-grow: 999999999;
+}
+.box{
+	padding: 5px;
+	background-color: #333;
+	
+}
+.box-img{
+	/*保证和容器底部没有空隙*/
+	display: block;  
+	box-sizing: border-box;
+	background-color:yellow;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border: 3px solid #fff;
+}
